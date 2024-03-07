@@ -10,4 +10,4 @@ const guestSchema = new mongoose.Schema({
 
 const guest = mongoose.model('guests', guestSchema);
 
-export default guest;
+export { guest, guestSchema };
