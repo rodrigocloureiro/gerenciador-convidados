@@ -14,7 +14,7 @@ class GuestController {
       const vips = await guest.find({ vip: true });
       res.status(200).json(vips);
     } catch (err) {
-      res.status(500).json(`Erro: ${err.message}`);
+      res.status(500).json({ message: `Erro: ${err.message}` });
     }
   }
 
@@ -23,6 +23,16 @@ class GuestController {
       const { body } = req;
       const created = await guest.create(body);
       res.status(201).json(created);
+    } catch (err) {
+      res.status(500).json({ message: `Erro: ${err.message}` });
+    }
+  }
+
+  static async removeGuest(req, res) {
+    try {
+      const { params: { id } } = req;
+      await guest.findByIdAndDelete(id);
+      res.status(200).json({ message: 'Convidado removido com sucesso' });
     } catch (err) {
       res.status(500).json({ message: `Erro: ${err.message}` });
     }
