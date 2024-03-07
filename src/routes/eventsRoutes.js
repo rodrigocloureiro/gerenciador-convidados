@@ -6,6 +6,7 @@ const routes = Router();
 routes.get('/events/:id', EventController.getById);
 routes.get('/events', EventController.getAll);
 routes.post('/events', EventController.addEvent);
+routes.post('/events/:id/invite', EventController.registerGuestForEvent);
 
 export default routes;
 
