@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import event from '../models/Event.js';
 import { guest } from '../models/Guest.js';
 
@@ -5,6 +6,7 @@ class EventController {
   static async getAll(req, res) {
     try {
       res.status(200).json(await event.find());
+
     } catch (err) {
       res.status(500).json({ message: `Erro ao listar eventos: ${err.message}` });
     }
@@ -14,8 +16,25 @@ class EventController {
     try {
       const { params: { id } } = req;
       res.status(500).json(await event.findById(id));
+
     } catch (err) {
       res.status(500).json({ message: `Erro ao listar evento: ${err.message}` });
+    }
+  }
+
+  static async getVipGuests(req, res) {
+    try {
+      const { params : { id } } = req;
+      const guests = await event.aggregate([
+        { $match: { _id: ObjectId.createFromHexString(id) } }, // busca pelo id (ele cria um ObjectId a partir do id (string))
+        { $unwind: "$guests" }, // descontrói o array para gerar um documento para cada elemento
+        { $match: { "guests.vip": true } }, // busca todos os elementos descontruídos acima com vip: true
+        { $replaceRoot: { newRoot: "$guests" } }, // esta etapa substitui o documento raiz pelo documento 'guests'
+      ]);
+      res.status(200).json({ guests });
+
+    } catch (err) {
+      res.status(500).json({ message: `Erro ao listar vips do evento: ${err.message}` });
     }
   }
 
@@ -24,6 +43,7 @@ class EventController {
       const { body } = req;
       const newEvent = await event.create(body);
       res.status(201).json(newEvent);
+
     } catch (err) {
       res.status(500).json({ message: `Erro ao criar evento: ${err.message}` });
     }
