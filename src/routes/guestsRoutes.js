@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import GuestController from '../controllers/guestController.js';
+import guestController from '../controllers/guestController.js';
 
 const routes = Router();
 
-routes.get('/guests', () => console.log('GET'));
-routes.post('/guests', GuestController.addGuest);
+routes.get('/guests', guestController.getAll);
+routes.post('/guests', guestController.addGuest);
 // routes.put();
 // routes.delete();
 
