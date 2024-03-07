@@ -3,6 +3,7 @@ import { Router } from 'express';
 
 const routes = Router();
 
+routes.delete('/events/:eventId/remove/:guestId', EventController.removeGuestEvent);
 routes.get('/events/:id/vips', EventController.getVipGuests)
 routes.get('/events/:id', EventController.getById);
 routes.get('/events', EventController.getAll);
