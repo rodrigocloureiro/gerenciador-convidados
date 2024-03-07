@@ -28,6 +28,16 @@ class GuestController {
     }
   }
 
+  static async updateGuest(req, res) {
+    try {
+      const { params: { id }, body } = req;
+      await guest.findByIdAndUpdate(id, body);
+      res.status(200).json({ message: 'Convidado atualizado com sucesso!' } );
+    } catch (err) {
+      res.status(500).json({ message: `Erro: ${err.message}` });
+    }
+  }
+
   static async removeGuest(req, res) {
     try {
       const { params: { id } } = req;

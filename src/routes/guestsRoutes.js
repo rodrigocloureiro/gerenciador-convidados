@@ -6,7 +6,7 @@ const routes = Router();
 routes.get('/guests', guestController.getAll);
 routes.get('/guests/vips', guestController.getVips);
 routes.post('/guests', guestController.addGuest);
-// routes.put();
+routes.put('/guests/:id', guestController.updateGuest);
 routes.delete('/guests/:id', guestController.removeGuest);
 
 export default routes;
