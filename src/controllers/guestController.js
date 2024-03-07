@@ -9,6 +9,15 @@ class GuestController {
     }
   }
 
+  static async getVips(req, res) {
+    try {
+      const vips = await guest.find({ vip: true });
+      res.status(200).json(vips);
+    } catch (err) {
+      res.status(500).json(`Erro: ${err.message}`);
+    }
+  }
+
   static async addGuest(req, res) {
     try {
       const { body } = req;
